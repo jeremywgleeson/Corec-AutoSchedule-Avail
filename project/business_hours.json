@@ -1,0 +1,17 @@
+{"businessHours": [
+  {
+    "daysOfWeek": [0],
+    "startTime": "11:00",
+    "endTime": "22:00"
+  },
+  {
+    "daysOfWeek": [1, 2, 3, 4, 5],
+    "startTime": "06:00",
+    "endTime": "22:00"
+  },
+  {
+    "daysOfWeek": [6],
+    "startTime": "08:00",
+    "endTime": "20:00"
+  }
+]}

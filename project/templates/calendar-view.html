@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Corec AutoScheduler</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <!-- <link href="{{url_for('static', filename='bootstrap-4.5.2-dist/css/bootstrap.min.css')}}"> -->
+  <link href="{{url_for('static', filename='fullcalendar/main.css')}}" rel='stylesheet'>
+  <!-- <link href='../static/fullcalendar/main.css' rel='stylesheet'> -->
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <div class="text-right">
+        <a class="btn btn-outline-secondary" href="/logout" role="button">Logout</a>
+      </div>
+      <div class="text-center">
+        <h1>Corec Auto-Scheduler</h1>
+        <p>
+          Submit corec reservations automatically<br>
+          <small>Timezone: EST</small>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteEventModal">
+    Launch demo modal
+  </button> -->
+
+  <!-- Confirm Deletion Modal -->
+  <div class="modal fade" id="deleteEventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="deleteEventModalBody">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="delteEventModalSubmit">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Make Reservation Modal -->
+  <div class="modal fade" id="makeReservationModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="makeReservationModalTitle"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <h3>Available Times</h3>
+                <hr>
+                <div id="btnTimeContainer">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div id='makeReservationCalendar'>
+                  <div class="text-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <!--<button type="button" class="btn btn-outline-primary" id="makeReservationModalReserveWeekly">Reserve Weekly</button> -->
+          <button type="button" class="btn btn-primary" id="makeReservationModalSubmit">Reserve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scheduler Modal -->
+  <div class="modal fade" id="schedulerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="schedulerModalTitle"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12 ml-auto">
+                <div id='schedulerCalendar'>
+                  <div class="text-center">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-outline-primary" id="schedulerModalReserveWeekly">Reserve Weekly</button>
+          <button type="button" class="btn btn-primary" id="schedulerModalSubmit">Reserve</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id='mainCalendar'></div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <!-- <script src="{{url_for('static', filename='js/jquery-3.5.1.min.js')}}"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <!-- <script src="{{url_for('static', filename='js/popper.min.js')}}"></script> -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <!-- <script src="{{url_for('static', filename='bootstrap-4.5.2-dist/js/bootstrap.min.js')}}"></script> -->
+  <script src="{{url_for('static', filename='fullcalendar/main.js')}}"></script>
+  <script src="{{url_for('static', filename='js/calendar-view.js')}}"></script>
+  <!-- <script src='../static/fullcalendar/main.js'></script>
+  <script src='../static/js/calendar-view.js'></script> -->
+</body>
+
+</html>

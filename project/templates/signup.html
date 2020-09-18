@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% from 'bootstrap/form.html' import render_field %}
+
+{% block flashed_messages %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="row">
+  <div class="col-sm-9 col-md-7 col-lg-7 mx-auto text-center">
+    <div class="alert alert-dark text-center" role="alert">{{ message }}</div>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+{% endblock %}
+
+{% block app_content %}
+<div class="row">
+  <div class="col-sm-9 col-md-7 col-lg-7 mx-auto">
+    <div class="card bg-light text-center mb-3">
+      <div class="card-header">Sign Up</div>
+      <div class="card-body">
+        <form method="post">
+          {{ form.csrf_token() }}
+          <div class="text-left">
+          {{ render_field(form.username, placeholder="Username") }}
+          {{ render_field(form.password, placeholder="Password") }}
+          {{ render_field(form.confirm, placeholder="Confirm Password") }}
+          {{ render_field(form.link, placeholder="https://m-1b9bef70.duosecurity.com/activate/XXXXXXXXXXXXXXXXXXXX") }}
+          {{ render_field(form.pin, placeholder="XXXX") }}
+          {{ render_field(form.key, placeholder="Key") }}
+          </div>
+          {{ render_field(form.submit, class="btn btn-outline-secondary btn-md") }}
+          <br>
+        </form>
+        <hr>
+        <small class="text-muted">By registering, you understand that your BoilerKey code and pin and will be stored on the server and used to automate getting reservations. You understand that this is inherintly insecure, and agree not to hold the website creator liable in the event the web server is compromised.</small>
+        <hr>
+        <small class="text-muted">If you already have an account <a href="/login">Login</a>.</small>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
