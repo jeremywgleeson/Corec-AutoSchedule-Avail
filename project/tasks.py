@@ -40,8 +40,8 @@ def get_reservation(res_id, curr_user_id):
     # "%-m/%d/%Y %-I:%M:%S %p"
 
     weekday = res.start_time.weekday()
-    start_time = res.start_time.strftime("%-m/%d/%Y %-I:%M:%S %p")
-    end_time = res.end_time.strftime("%-m/%d/%Y %-I:%M:%S %p")
+    start_time = res.start_time.strftime("%-m/%-d/%Y %-I:%M:%S %p")
+    end_time = res.end_time.strftime("%-m/%-d/%Y %-I:%M:%S %p")
 
     opts = Options()
     opts.headless = True
